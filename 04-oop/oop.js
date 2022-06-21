@@ -19,8 +19,8 @@ class Employee extends Person {
 }
 
 const p1 = new Person("Jan", 22);
-const p2 = { name: "Jan", age: 22 };
-const p3 = new Person("Jan");
+const p2 = { name: "Juraj", age: 22 };
+const p3 = new Person("Miro");
 console.log(p1, p2, p3);
 console.log(p1.describe());
 
@@ -49,3 +49,22 @@ console.log(e1 instanceof Employee);
 console.log(e1 instanceof Person);
 console.log(e1 instanceof Object);
 console.log(p1 instanceof Employee);
+
+new Door().open();
+
+const persons = [p1, p3, e1];
+console.log(persons.length);
+
+for(let i = 0; i < persons.length; i++) {
+  console.log(persons[i].describe());
+}
+
+for(let person of persons) {
+  console.log(person.describe());
+}
+
+for(let p in persons) {
+  console.log(persons[p].describe());
+}
+
+persons.forEach(p => console.log(p.describe()));
