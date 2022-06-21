@@ -18,7 +18,7 @@ class Employee extends Person {
       ' (' + this.title + ')';}
 }
 
-const p1 = new Person("Jan", 22);
+const p1 = new Person("Jan", 16);
 const p2 = { name: "Juraj", age: 22 };
 const p3 = new Person("Miro");
 console.log(p1, p2, p3);
@@ -68,3 +68,35 @@ for(let p in persons) {
 }
 
 persons.forEach(p => console.log(p.describe()));
+
+console.log("removing employee Michal");
+persons.pop();
+persons.forEach(p => console.log(p.describe()));
+persons.forEach(function(p) {
+  console.log(p.describe());
+});
+console.log("adding employee Michal");
+persons.push(e1);
+persons.forEach(p => console.log(p.describe()));
+
+const arr = [1, 4, 6, 8];
+const arr2 = [4, 6, 7];
+console.log(arr.join('-'));
+console.log(arr.concat(arr2));
+console.log([...arr, ...arr2, ...persons]);
+
+console.log(persons.filter(p => 'M'.localeCompare(p.name.charAt(0)) === 0));
+console.log(persons.filter(function(p) {
+  return 'M'.localeCompare(p.name.charAt(0)) === 0;
+}));
+console.log("FILTER: ", persons.filter(p => p.age >= 18 && p.age <= 30));
+console.log("NAJDENA:", persons.find(p => p.age >= 18 && p.age <= 30));
+
+console.log(persons.map(p => p.name));
+console.log(persons.map(p => p.age));
+
+console.log(persons.every(p => p.age >= 18));
+console.log(persons.some(p => 'M'.localeCompare(p.name.charAt(0)) === 0));
+
+console.log(Array.from(arr));
+console.log(arr.reduce((total, value) => total + value));
