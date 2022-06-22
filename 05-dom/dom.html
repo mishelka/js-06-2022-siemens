@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script type="text/javascript">
+        function upperCase() {
+            let elem = document.getElementById("fname");
+            elem.value = elem.value.toUpperCase();
+        }
+    </script>
+</head>
+<body>
+    <form>
+        Enter your name:
+        <input type="date" id="fname" onblur="upperCase()">
+    </form>
+</body>
+</html>
