@@ -10,8 +10,14 @@
 </head>
 <body>
     <form>
-        Enter your name:
-        <input type="date" id="fname" onblur="upperCase()">
+        <label for="fname">Name:</label>
+        <input type="text" id="fname" onblur="upperCase()">
+        <br/>
+        <label for="birthDate">Date of birth:</label>
+        <input type="date" id="birthDate">
+        <br>
+        <input type="submit" value="OK">
+        <input type="submit" value="Reset">
     </form>
 </body>
 </html>
