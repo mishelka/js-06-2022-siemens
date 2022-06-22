@@ -9,15 +9,18 @@
     </script>
 </head>
 <body>
-    <form>
+    <form onsubmit="handleSubmit(event)">
         <label for="fname">Name:</label>
         <input type="text" id="fname" onblur="upperCase()">
         <br/>
         <label for="birthDate">Date of birth:</label>
-        <input type="date" id="birthDate">
+        <input type="date" id="birthDate" value="2022-02-15">
+        <br>
+
         <br>
         <input type="submit" value="OK">
-        <input type="submit" value="Reset">
+<!--        <input type="submit" value="OK" onclick="handleSubmit(event)">-->
+        <input type="reset" value="Reset">
     </form>
 </body>
 </html>

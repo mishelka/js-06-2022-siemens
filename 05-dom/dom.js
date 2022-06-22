@@ -6,3 +6,7 @@ class Person {
   }
 }
 
+function handleSubmit(event) {
+  event.preventDefault();
+
+}
