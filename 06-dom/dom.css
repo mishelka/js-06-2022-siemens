@@ -28,3 +28,20 @@ table tbody tr:hover {
 table tr:nth-child(even) {
     background-color: lightgoldenrodyellow;
 }
+
+table tr.selected {
+    background-color: black;
+    color: white;
+}
+
+ul {
+    /*display: block;*/
+    opacity: 1;
+    height: 63px;
+    transition: all 1s ease-in-out;
+}
+ul.hidden {
+    /*display: none;*/
+    opacity: 0;
+    height: 0;
+}
