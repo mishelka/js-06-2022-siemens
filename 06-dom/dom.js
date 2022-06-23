@@ -10,7 +10,6 @@ window.onload = () => {
     //             </tr>
     //   `
     // })
-
 };
 
 class Person {
@@ -27,4 +26,10 @@ function handleSubmit(event) {
   new Date(document.personForm.birthDate.value));
   console.log(person);
   this.persons.push(person);
+}
+
+function moveLi() {
+  let superWidget = document.getElementById("widget1");
+  let ul = superWidget.parentNode;
+  ul.appendChild(superWidget);
 }
