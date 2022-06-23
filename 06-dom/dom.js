@@ -1,17 +1,3 @@
-const persons = [];
-
-window.onload = () => {
-  document.getElementById("personTable").innerHTML = `<tr><td>Nejake meno</td><td>Nejaky datum</td></tr>`;
-    // persons.forEach(p => {
-    //   `
-    //           <tr>
-    //                 <th>${p.name}</th>
-    //                 <th>p.birthDate</th>
-    //             </tr>
-    //   `
-    // })
-};
-
 class Person {
   constructor(name, birthDate = new Date(), favouriteColor) {
     this.name = name;
@@ -20,12 +6,43 @@ class Person {
   }
 }
 
+const persons = [
+  new Person("Jan", new Date(), "red"),
+  new Person("Michal", new Date(), "blue"),
+  new Person("Petra", new Date(), "red"),
+  new Person("Marcela", new Date(), "blue"),
+];
+
+window.onload = () => renderTable();
+
 function handleSubmit(event) {
   event.preventDefault();
-  const person = new Person(document.personForm.fname.value,
-  new Date(document.personForm.birthDate.value));
-  console.log(person);
-  this.persons.push(person);
+  //validation!!
+  const person = new Person(
+    document.personForm.fname.value,
+    new Date(document.personForm.birthDate.value)
+  );
+  persons.push(person);
+  renderTable();
+}
+
+function handleReset(event) {
+  event.preventDefault();
+  document.personForm.fname.value = '';
+  document.personForm.birthDate.value = '2022-02-15';
+}
+
+
+function renderTable() {
+  // const table = document.getElementById("personForm");
+  const table = document.getElementById("personTable")
+  table.innerHTML = "";
+  persons.forEach(p => table.innerHTML += `
+  <tr>
+    <td>${p.name}</td>
+    <td>${p.birthDate.toLocaleDateString()}</td>
+  </tr>
+  `);
 }
 
 function moveLi() {
