@@ -13,6 +13,10 @@ class Person {
 let persons = [];
 let selectedPersonId = -1;
 
+let errors = {
+  fname: "Name has to be shorter than 10 charaters"
+};
+
 window.onload = async () => {
   await fetchPersons();
 }
@@ -46,14 +50,26 @@ async function fetchPersons() {
 
 function handleSubmit(event) {
   event.preventDefault();
-  //validation!!
+  validate();
   const person = new Person(
     persons.length + 1,
     document.personForm.fname.value,
-    new Date(document.personForm.email.value)
+    document.personForm.email.value,
   );
   persons.push(person);
   renderTable();
+}
+
+function validate() {
+  const name = document.personForm.fname.value;
+  const email = document.personForm.email.value;
+
+  if(name == '') {
+    errors.fname = 'The name is requred';
+  } else if (name.length > 30) {
+    errors.fname = 'The name is max 30 characters';
+  }
+
 }
 
 function handleReset(event) {
