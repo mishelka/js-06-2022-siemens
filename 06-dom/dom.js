@@ -1,21 +1,48 @@
+const BASE_URL =
+  'https://jsonplaceholder.typicode.com/users';
+
 class Person {
-  constructor(id, name, birthDate = new Date(), favouriteColor) {
+  constructor(id, name, emailDate = 'abc@abc.com', phone = '0904 495 332') {
     this.id = id;
     this.name = name;
-    this.birthDate = birthDate;
-    this.favouriteColor = favouriteColor;
+    this.email = email;
+    this.phone = phone;
   }
 }
 
-let persons = [
-  new Person(15, "Jan", new Date(), "red"),
-  new Person(25,"Michal", new Date(), "blue"),
-  new Person(0, "Petra", new Date(), "red"),
-  new Person(55, "Marcela", new Date(), "blue"),
-];
+let persons = [];
 let selectedPersonId = -1;
 
-window.onload = () => renderTable();
+window.onload = async () => {
+  await fetchPersons();
+}
+async function fetchPersons() {
+  try {
+    const response = await fetch(BASE_URL);
+    if(response.status === 200) {
+      persons = await response.json();
+      console.log(persons);
+      renderTable();
+    }
+  } catch(err) {
+    console.error("Sorry, an error occured", err);
+  }
+
+  // /*--- cez promises: ---*/
+  // fetch(BASE_URL).then(
+  //   (response) => {
+  //     if(response.status === 200) {
+  //       response.json().then((data) => {
+  //         persons = data;
+  //         renderTable();
+  //       });
+  //     }
+  //   },
+  //   (errorResponse) => {
+  //     console.error("Sorry, an error occured", errorResponse);
+  //   }
+  // );
+}
 
 function handleSubmit(event) {
   event.preventDefault();
@@ -23,7 +50,7 @@ function handleSubmit(event) {
   const person = new Person(
     persons.length + 1,
     document.personForm.fname.value,
-    new Date(document.personForm.birthDate.value)
+    new Date(document.personForm.email.value)
   );
   persons.push(person);
   renderTable();
@@ -32,7 +59,7 @@ function handleSubmit(event) {
 function handleReset(event) {
   event.preventDefault();
   document.personForm.fname.value = '';
-  document.personForm.birthDate.value = '2022-02-15';
+  document.personForm.email.value = '@';
 }
 
 
@@ -46,14 +73,17 @@ function renderTable() {
       class="${selectedPersonId === p.id ? 'selected' : ''}">
     <td>${p.id}</td>
     <td>${p.name}</td>
-    <td>${p.birthDate.toLocaleDateString()}</td>
+    <td>${p.email}</td>
+    <td>${p.phone}</td>
+    <td><button onclick="deletePerson(${p.id})">Delete</button></td>
   </tr>
   `);
 }
 
-function deletePerson() {
-  if(selectedPersonId !== -1) {
-    persons = persons.filter(p => p.id !== selectedPersonId);
+function deletePerson(id) {
+  const idToDelete = id === undefined ? selectedPersonId : id;
+  if (idToDelete !== -1) {
+    persons = persons.filter(p => p.id !== idToDelete);
   }
   selectedPersonId = -1;
   renderTable();

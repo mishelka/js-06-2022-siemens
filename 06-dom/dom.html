@@ -12,14 +12,18 @@
                 <tr>
                     <th>Id</th>
                     <th>Name</th>
-                    <th>Birth Date</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Operations</th>
                 </tr>
             </thead>
             <tbody id="personTable">
 
             </tbody>
         </table>
-        <button onclick="deletePerson()">Delete</button>
+        <button onclick="deletePerson()">
+            Delete selected
+        </button>
 
         <h1>Add person</h1>
         <form name="personForm"
@@ -28,8 +32,8 @@
             <label for="fname">Name:</label>
             <input type="text" id="fname" name="fname" value="Michaela">
             <br/>
-            <label for="birthDate">Date of birth:</label>
-            <input type="date" id="birthDate" name="birthDate" value="2022-02-15">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="@">
             <br>
 
             <br>
