@@ -2,7 +2,7 @@ const BASE_URL =
   'https://jsonplaceholder.typicode.com/users';
 
 class Person {
-  constructor(id, name, emailDate = 'abc@abc.com', phone = '0904 495 332') {
+  constructor(id, name, email = 'abc@abc.com', phone = '0904 495 332') {
     this.id = id;
     this.name = name;
     this.email = email;
@@ -12,10 +12,9 @@ class Person {
 
 let persons = [];
 let selectedPersonId = -1;
+let editing = false;
 
-let errors = {
-  fname: "Name has to be shorter than 10 charaters"
-};
+let errors = {};
 
 window.onload = async () => {
   await fetchPersons();
@@ -50,25 +49,51 @@ async function fetchPersons() {
 
 function handleSubmit(event) {
   event.preventDefault();
-  validate();
-  const person = new Person(
-    persons.length + 1,
-    document.personForm.fname.value,
-    document.personForm.email.value,
-  );
-  persons.push(person);
+  const valid = validate();
+
+  if(valid) {
+    if (editing) {
+      const person = persons.find(p => p.id === selectedPersonId)
+      person.name = document.personForm.fname.value;
+      person.email = document.personForm.email.value;
+      hideForm();
+    } else {
+      const person = new Person(
+        persons.length + 1,
+        document.personForm.fname.value,
+        document.personForm.email.value,
+      );
+      persons.push(person);
+      hideForm();
+    }
+  }
+  //renderErrors();
   renderTable();
 }
 
-function validate() {
-  const name = document.personForm.fname.value;
-  const email = document.personForm.email.value;
+function hideForm() {
+  document.getElementById("form").innerHTML = "";
+}
 
-  if(name == '') {
-    errors.fname = 'The name is requred';
-  } else if (name.length > 30) {
-    errors.fname = 'The name is max 30 characters';
+function validate() {
+  const nameInput = document.personForm.fname;
+  const emailInput = document.personForm.email;
+
+  if(nameInput.hasAttribute('required')) {
+    if(nameInput.value) {
+      errors.fname = 'Name is required.';
+      return false;
+    }
+    const maxLength = nameInput.getAttribute("maxlength");
+    if(
+      nameInput.hasAttribute("maxlength")
+
+      && nameInput.value.length >
+      maxLength) {
+      errors.fname = 'Name needs to have max ' + maxLength;
+    }
   }
+  return true;
 
 }
 
@@ -91,18 +116,59 @@ function renderTable() {
     <td>${p.name}</td>
     <td>${p.email}</td>
     <td>${p.phone}</td>
+    <td><button onclick="editPerson(${p.id})">Edit</button></td>
     <td><button onclick="deletePerson(${p.id})">Delete</button></td>
   </tr>
   `);
 }
 
+function renderForm() {
+  const person = persons.find(p => p.id === selectedPersonId);
+  const form = `
+  <h1>${editing ? 'Edit person' : 'Add person'}</h1>
+        <form name="personForm"
+              onsubmit="handleSubmit(event);"
+              onreset="handleReset(event)">
+            <label for="fname">Name:</label>
+            <input type="text" id="fname" name="fname"
+                   value="${person.name}"
+                   required maxlength="50"
+            >
+            <span class="error">${errors.fname ? errors.fname : ""}</span>
+            <br/>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email"
+                   value="${person.email}"
+                   required maxlength="30"
+            >
+            <span class="error">${errors.email ? errors.email : ""}</span>
+            <br>
+
+            <br>
+            <button type="submit">OK</button>
+    <!--        <input type="submit" value="OK" onclick="handleSubmit(event)">-->
+            <button type="reset">Reset</button>
+        </form>
+  `;
+  document.getElementById("form").innerHTML = form;
+}
+
 function deletePerson(id) {
+  event.stopPropagation();
   const idToDelete = id === undefined ? selectedPersonId : id;
   if (idToDelete !== -1) {
     persons = persons.filter(p => p.id !== idToDelete);
   }
   selectedPersonId = -1;
   renderTable();
+}
+
+function editPerson(id) {
+  event.stopPropagation();
+  console.log("editing ", id);
+  editing = true;
+  selectedPersonId = id;
+  renderForm();
 }
 
 function selectRow(p) {
